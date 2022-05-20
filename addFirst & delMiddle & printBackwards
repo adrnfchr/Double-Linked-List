@@ -1,0 +1,162 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+using namespace std;
+
+int pil;
+void pilih();
+void buat_baru();
+void tambah_depan();
+void hapus_tengah();
+void tampil();
+void cetak_mundur();
+
+struct node
+{
+	char nama[20];
+	int nim;
+	node *next;
+	node *prev;
+};
+
+node *baru, *head, *tail,*hapus,*bantu,*bantu2;
+
+int main()
+{
+	do
+	{
+		system("cls");
+		cout<<"INPUT DATA MAHASISWA "<<endl;
+		cout<<"=========================\n";
+		cout<<"1. Penambahan Depan"<<endl;
+		cout<<"2. Hapus tengah"<<endl;
+		cout<<"3. Tampilkan Data Secara Mundur"<<endl;
+		cout<<"4. Exit"<<endl;
+		
+		cout<<"Pilihan : ";
+		cin>>pil;
+		
+		pilih();
+	}
+	while(pil!=4);
+}
+
+void create()
+{
+	head = new(node);
+	cout<<"Nama \t: ";
+	cin>>head->nama;
+	
+	cout<<"Nim \t: ";
+	cin>>head->nim;
+	
+	head->next=NULL;
+	head->prev=NULL;
+	tail=head;
+}
+
+void pilih()
+{
+	if(pil==1) tambah_depan();
+	else if(pil==2) hapus_tengah();
+	else if(pil==3) cetak_mundur();
+	else cout<<"selesai";
+}
+
+void tambah_depan()
+{
+	if(head==NULL){
+		create();
+	}
+	else {
+		baru = new (node);
+		cout<<"Nama \t: ";
+		cin>>baru->nama;
+	
+		cout<<"Nim \t: ";
+		cin>>baru->nim;
+		
+		baru->next=head;
+		baru->prev=NULL;
+		head->prev=baru;
+		head=baru;
+	}
+	
+	cout<<endl<<endl;
+	tampil();
+}
+
+void hapus_tengah()
+{
+	int sisip;
+	cout<<"Masukan Posisi Sisip yg anda ingin hapus Anda : ";
+	cin>>sisip;
+	
+	bantu=head;
+
+	for(int i=1;i<sisip-1;i++)
+	{
+		bantu=bantu->next;
+	}
+	hapus=bantu->next;
+	bantu2=hapus->next;
+	bantu->next=hapus->next;
+	delete hapus;
+	cout<<endl;
+	tampil();
+}
+
+void tampil()
+{
+	if (head==NULL)
+		cout<<"Kosong\n";
+	else 
+	{
+		bantu=head;
+		cout<<" No \t | Nama \t | NIM \t         |"<<endl;
+		int no=0;
+		while(bantu!=NULL)
+		{
+			no++;
+			cout<<" "<<no<<"\t | ";
+			cout<<" "<<bantu->nama<<"\t | ";
+			cout<<" "<<bantu->nim<<"\t | "<<endl;
+			bantu=bantu->next;
+		}
+	}system("pause");
+}
+
+void cetak_mundur()
+{
+	if (head==NULL)
+		cout<<"Kosong\n";
+	else 
+	{
+		cout<<"List awal : \n";
+		bantu=head;
+		cout<<" No \t | Nama \t | NIM \t         |"<<endl;
+		int noo=0;
+		while(bantu!=NULL)
+		{
+			noo++;
+			cout<<" "<<noo<<"\t | ";
+			cout<<" "<<bantu->nama<<"\t | ";
+			cout<<" "<<bantu->nim<<"\t | "<<endl;
+			bantu=bantu->next;
+		}
+		cout<<"\nList dari bawah : \n";
+		bantu=tail;
+		cout<<" No \t | Nama \t | NIM \t         |"<<endl;
+		int no=0;
+		while(bantu!=NULL)
+		{
+			no++;
+			cout<<" "<<no<<"\t | ";
+			cout<<" "<<bantu->nama<<"\t | ";
+			cout<<" "<<bantu->nim<<"\t | "<<endl;
+			bantu=bantu->prev;
+		}
+	}system("pause");
+}
